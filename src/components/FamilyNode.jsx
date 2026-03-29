@@ -1,21 +1,21 @@
 import { avatarColors, getInitials, getAge } from '../utils';
 
-export default function FamilyNode({ member, x, y, onClick, isMe }) {
+export default function FamilyNode({ member, x, y, onClick, isMe, isDragging }) {
   const color = avatarColors[member.relation] || avatarColors.other;
   const age = getAge(member.birth);
 
   return (
     <g
-      transform={`translate(${x}, ${y})`}
+      transform={`translate(${x}, ${y}) scale(${isDragging ? 1.12 : 1})`}
       onClick={() => onClick(member)}
-      style={{ cursor: 'pointer' }}
+      style={{ cursor: isDragging ? 'grabbing' : 'pointer', transition: isDragging ? 'none' : 'transform 0.2s' }}
     >
-      {/* Shadow */}
+      {/* Shadow — larger when dragging */}
       <circle
-        cx={1}
-        cy={3}
+        cx={isDragging ? 2 : 1}
+        cy={isDragging ? 6 : 3}
         r={isMe ? 34 : 26}
-        fill="rgba(0,0,0,0.08)"
+        fill={isDragging ? 'rgba(233,100,67,0.18)' : 'rgba(0,0,0,0.08)'}
       />
       {/* Outer ring for "me" */}
       {isMe && (

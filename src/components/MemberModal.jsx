@@ -113,7 +113,7 @@ export default function MemberModal({ member, mode, onClose, onSave, onDelete })
             <div className="mt-2 text-center">
               <div style={{ fontWeight: 700, fontSize: 20, color: '#5a3e2b' }}>{member.name}</div>
               <div style={{ fontSize: 13, color: '#a08c7a', marginTop: 2 }}>
-                {relationLabels[member.relation]} · {age}세
+                {member.relation !== 'me' && `${relationLabels[member.relation]} · `}{age}세
               </div>
             </div>
           )}
@@ -173,8 +173,8 @@ export default function MemberModal({ member, mode, onClose, onSave, onDelete })
                 />
               </Field>
 
-              {/* Relation */}
-              {currentMode !== 'add' || member?.relation !== 'me' ? (
+              {/* Relation — hidden for 'me' node */}
+              {member?.relation !== 'me' && (
                 <Field label="나와의 관계 *">
                   <select
                     value={form.relation}
@@ -186,7 +186,7 @@ export default function MemberModal({ member, mode, onClose, onSave, onDelete })
                     ))}
                   </select>
                 </Field>
-              ) : null}
+              )}
 
               {/* Gender - optional, light tag style */}
               <Field label="성별 (선택 사항)">
